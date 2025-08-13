@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  spiderman-loader:
+    build:
+      context: ./spiderman/
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DB: spiderman
+      SPIDERMAN_EXPECTED_TABLES: actibity_1,train_station,wta_1
+    depends_on:
+      mysql:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    networks:
+      - data-engineering
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - data-engineering
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: spider_data
+    ports:
+      - "5432:5432"
+    networks:
+      - data-engineering
+
+networks:
+  data-engineering:
+    driver: bridge

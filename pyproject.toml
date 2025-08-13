@@ -1,0 +1,18 @@
+[project]
+name = "data-engineering-revision"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "dbt-core",
+    "dbt-postgres",
+    "dbt-mysql",
+    "ipykernel",
+    "jupyter",
+    "dbt-snowflake",
+    "dbt-bigquery",
+    "dbt-spark",
+    "dbt-dremio",
+    "dbt-databricks",
+]
