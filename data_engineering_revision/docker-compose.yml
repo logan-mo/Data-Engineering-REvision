@@ -14,8 +14,6 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      postgres:
-        condition: service_started
     networks:
       - data-engineering
 
@@ -33,17 +31,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
-
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: spider_data
-    ports:
-      - "5432:5432"
-    networks:
-      - data-engineering
 
 networks:
   data-engineering:
